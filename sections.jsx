@@ -106,14 +106,14 @@ function Nav({ onQuote }) {
         <a href="#top" className="brand">
           <img src="assets/logo-mark.png" alt="ESDEL" className="brand-logo" style={{ borderRadius: "10px" }} />
           <div>
-            <div className="brand-text">esdel</div>
+            <div className="brand-text">ESDEL
+</div>
             <div className="brand-sub">Agentes de Seguros · MX</div>
           </div>
         </a>
 
         <nav className="nav-links">
-          {links.map((l) =>
-          <a key={l.href} href={l.href}>{l.label}</a>
+          {links.map((l) => <a key={l.href} href={l.href}>{l.label}</a>
           )}
         </nav>
 
@@ -303,17 +303,19 @@ function Locations() {
   const offices = [
   {
     city: 'Querétaro',
-    addr: 'Esquina con Blvrd. Hacienda del Jacal, Hacienda La Laja 605, El Jacal, 76180 Santiago de Querétaro, Qro.',
+    addr: 'Hacienda La Laja 605, El Jacal, 76180 Santiago de Querétaro, Qro.',
     phone: '+52 442 337 2540',
     tel: '+524423372540',
-    maps: 'https://maps.app.goo.gl/haA6KHHLgGZYMUih9'
+    maps: 'https://maps.app.goo.gl/haA6KHHLgGZYMUih9',
+    embed: 'https://www.google.com/maps?q=Hacienda+La+Laja+605,+El+Jacal,+76180+Santiago+de+Quer%C3%A9taro,+Qro&output=embed'
   },
   {
     city: 'Monterrey',
-    addr: 'David Alfaro Siqueiros 104, piso 16, Valle Oriente, San Pedro Garza García, Nuevo León.',
+    addr: 'David Alfaro Siqueiros 104, piso 16, Valle Oriente, San Pedro Garza García, N.L.',
     phone: '+52 81 3142 6571',
     tel: '+528131426571',
-    maps: 'https://maps.app.goo.gl/jXVksQTJt6Gbt74G8'
+    maps: 'https://maps.app.goo.gl/jXVksQTJt6Gbt74G8',
+    embed: 'https://www.google.com/maps?q=David+Alfaro+Siqueiros+104,+Valle+Oriente,+San+Pedro+Garza+Garc%C3%ADa,+Nuevo+Le%C3%B3n&output=embed'
   }];
 
   return (
@@ -331,8 +333,12 @@ function Locations() {
           {offices.map((o) =>
           <div key={o.city} className="loc-card reveal">
               <div className="loc-map">
-                <div className="loc-roads"></div>
-                <div className="loc-pin"></div>
+                <iframe
+                src={o.embed}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title={`Mapa oficina ${o.city}`}
+                allowFullScreen></iframe>
               </div>
               <div className="loc-body">
                 <h3>{o.city}<span className="it">.</span></h3>
