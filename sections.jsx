@@ -193,25 +193,44 @@ function Partners() {
 
   useEffect(() => {
     const el = innerRef.current;
-    if (!el) return;
-    let x = 0;
-    let lastT = 0;
-    let raf = 0;
-    const tick = (t) => {
-      if (!lastT) lastT = t;
-      const dt = Math.min((t - lastT) / 1000, 0.1);
-      lastT = t;
-      const halfW = el.scrollWidth / 2;
-      if (halfW > 0) {
-        const loopSec = window.innerWidth < 720 ? 4 : 9;
-        x -= (halfW / loopSec) * dt;
-        if (-x >= halfW) x += halfW;
-        el.style.transform = `translate3d(${x}px, 0, 0)`;
-      }
-      raf = requestAnimationFrame(tick);
+    if (!el || !window.gsap) return;
+
+    let tween;
+    const start = () => {
+      const first = el.children[0];
+      const copy2First = el.children[list.length];
+      if (!first || !copy2First) return;
+      const copyWidth =
+        copy2First.getBoundingClientRect().left - first.getBoundingClientRect().left;
+      if (copyWidth <= 0) return;
+
+      tween = window.gsap.to(el, {
+        x: `-=${copyWidth}`,
+        duration: window.innerWidth < 720 ? 10 : 18,
+        ease: 'none',
+        repeat: -1,
+        modifiers: {
+          x: (v) => `${parseFloat(v) % copyWidth}px`
+        }
+      });
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(start);
+    } else {
+      setTimeout(start, 100);
+    }
+
+    const onResize = () => {
+      if (tween) tween.kill();
+      start();
+    };
+    window.addEventListener('resize', onResize);
+
+    return () => {
+      if (tween) tween.kill();
+      window.removeEventListener('resize', onResize);
+    };
   }, []);
 
   return (
