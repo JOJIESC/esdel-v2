@@ -187,7 +187,7 @@ function Hero({ onQuote }) {
 
 // ---------------- PARTNERS ----------------
 function Partners() {
-  const list = ['Qualitas', 'MAPFRE', 'Seguros Potosí', 'HDI', 'ANA Seguros', 'AXA', 'GMX', 'Inbursa', 'Plan Seguro', 'Momento Seguros'];
+  const list = ['Qualitas', 'MAPFRE', 'Seguros Potosí', 'HDI', 'ANA Seguros', 'AXA', 'GMX', 'Momento Seguros'];
   const row = [...list, ...list];
   const innerRef = useRef(null);
 
