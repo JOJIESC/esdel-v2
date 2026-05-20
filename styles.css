@@ -284,14 +284,14 @@ body { overflow-x: hidden; }
   flex: 1; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 .partners-inner {
-  display: flex; gap: 64px; align-items: center;
+  display: flex; align-items: center;
   animation: scroll-x 9s linear infinite;
   white-space: nowrap;
   will-change: transform;
 }
 @media (max-width: 720px) {
-  .partners-inner { animation-duration: 4s; gap: 24px; }
-  .partners-inner span { font-size: 20px; }
+  .partners-inner { animation-duration: 4s; }
+  .partners-inner span { font-size: 20px; margin-right: 24px; }
 }
 .partners-inner span {
   font-family: "Instrument Serif", serif;
@@ -300,6 +300,7 @@ body { overflow-x: hidden; }
   color: var(--ink);
   opacity: .7;
   text-transform: none;
+  margin-right: 64px;
 }
 .partners-inner span.it { font-style: italic; }
 @keyframes scroll-x {
