@@ -187,7 +187,7 @@ function Hero({ onQuote }) {
 
 // ---------------- PARTNERS ----------------
 function Partners() {
-  const list = ['Qualitas', 'MAPFRE', 'Seguros Potosí', 'HDI', 'Monterrey', 'ANA Seguros', 'AXA', 'GMX', 'Inbursa', 'Plan Seguro'];
+  const list = ['Qualitas', 'MAPFRE', 'Seguros Potosí', 'HDI', 'Monterrey', 'ANA Seguros', 'AXA', 'GMX', 'Inbursa', 'Plan Seguro', 'Momento Seguros'];
   const row = [...list, ...list];
   return (
     <div className="partners" id="aseguradoras">
@@ -433,10 +433,53 @@ function Footer() {
 function QuoteModal({ open, onClose }) {
   const [step, setStep] = useState(0);
   const [data, setData] = useState({ tipo: 'Auto', nombre: '', telefono: '', email: '' });
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {if (!open) {setStep(0);}}, [open]);
+  useEffect(() => {
+    if (!open) { setStep(0); setError(null); setSending(false); }
+  }, [open]);
 
   const setF = (k) => (e) => setData({ ...data, [k]: e.target.value });
+
+  const valid =
+    data.nombre.trim().length > 1 &&
+    data.telefono.trim().length >= 8 &&
+    /\S+@\S+\.\S+/.test(data.email);
+
+  const submit = async () => {
+    if (!valid || sending) return;
+    setSending(true);
+    setError(null);
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: window.WEB3FORMS_ACCESS_KEY,
+          subject: `Nueva cotización ESDEL — ${data.tipo}`,
+          from_name: 'Sitio ESDEL',
+          tipo: data.tipo,
+          name: data.nombre,
+          email: data.email,
+          phone: data.telefono,
+          message:
+            `Tipo de seguro: ${data.tipo}\n` +
+            `Nombre: ${data.nombre}\n` +
+            `Teléfono: ${data.telefono}\n` +
+            `Email: ${data.email}`,
+          botcheck: ''
+        })
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success) throw new Error(json.message || 'No se pudo enviar la solicitud.');
+      setStep(2);
+    } catch (e) {
+      setError(e.message || 'Error de red. Inténtalo de nuevo en un momento.');
+    } finally {
+      setSending(false);
+    }
+  };
 
   return (
     <div className={`modal-bg ${open ? 'open' : ''}`} onClick={onClose}>
@@ -492,9 +535,14 @@ function QuoteModal({ open, onClose }) {
                 <label>Correo electrónico</label>
                 <input value={data.email} onChange={setF('email')} placeholder="[email protected]" type="email" />
               </div>
+              {error &&
+              <div style={{ color: '#c0392b', fontSize: 13, marginTop: 4 }}>{error}</div>
+              }
               <div className="modal-actions">
-                <button className="btn btn-ghost" onClick={() => setStep(0)}>← Atrás</button>
-                <button className="btn btn-primary" onClick={() => setStep(2)}>Enviar solicitud <span className="arrow">↗</span></button>
+                <button className="btn btn-ghost" onClick={() => setStep(0)} disabled={sending}>← Atrás</button>
+                <button className="btn btn-primary" onClick={submit} disabled={!valid || sending}>
+                  {sending ? 'Enviando…' : <>Enviar solicitud <span className="arrow">↗</span></>}
+                </button>
               </div>
             </div>
           </div>
