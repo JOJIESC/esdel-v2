@@ -196,7 +196,7 @@ function Partners() {
         <div className="partners-track">
           <div className="partners-inner">
             {row.map((n, i) =>
-            <span key={i} className={i % 3 === 1 ? 'it' : ''}>{n}</span>
+            <span key={i} className={(i % list.length) % 3 === 1 ? 'it' : ''}>{n}</span>
             )}
           </div>
         </div>
