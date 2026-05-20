@@ -187,7 +187,7 @@ function Hero({ onQuote }) {
 
 // ---------------- PARTNERS ----------------
 function Partners() {
-  const list = ['Qualitas', 'MAPFRE', 'Seguros Potosí', 'HDI', 'Monterrey', 'ANA Seguros', 'AXA', 'GMX', 'Inbursa', 'Plan Seguro', 'Momento Seguros'];
+  const list = ['Qualitas', 'MAPFRE', 'Seguros Potosí', 'HDI', 'ANA Seguros', 'AXA', 'GMX', 'Inbursa', 'Plan Seguro', 'Momento Seguros'];
   const row = [...list, ...list];
   return (
     <div className="partners" id="aseguradoras">
@@ -223,12 +223,7 @@ function Services({ onQuote }) {
     <section className="section" id="servicios">
       <div className="wrap">
         <div className="section-head">
-          <h2 className="reveal">Cinco coberturas.<br /><span className="it">Una</span> sola asesoría.</h2>
-          <p className="reveal reveal-d1">
-            Diseñamos cada póliza alrededor de tu vida — no al revés. Comparamos
-            opciones de las principales aseguradoras de México y te explicamos en
-            lenguaje claro qué estás contratando.
-          </p>
+          <h2 className="reveal">Servicios<span className="it">.</span></h2>
         </div>
         <div className="services">
           {items.map((it) => {

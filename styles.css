@@ -285,12 +285,12 @@ body { overflow-x: hidden; }
 }
 .partners-inner {
   display: flex; gap: 64px; align-items: center;
-  animation: scroll-x 38s linear infinite;
+  animation: scroll-x 18s linear infinite;
   white-space: nowrap;
   will-change: transform;
 }
 @media (max-width: 720px) {
-  .partners-inner { animation-duration: 18s; gap: 40px; }
+  .partners-inner { animation-duration: 9s; gap: 40px; }
   .partners-inner span { font-size: 22px; }
 }
 .partners-inner span {
