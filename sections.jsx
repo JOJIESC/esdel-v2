@@ -189,12 +189,37 @@ function Hero({ onQuote }) {
 function Partners() {
   const list = ['Qualitas', 'MAPFRE', 'Seguros Potosí', 'HDI', 'ANA Seguros', 'AXA', 'GMX', 'Inbursa', 'Plan Seguro', 'Momento Seguros'];
   const row = [...list, ...list];
+  const innerRef = useRef(null);
+
+  useEffect(() => {
+    const el = innerRef.current;
+    if (!el) return;
+    let x = 0;
+    let lastT = 0;
+    let raf = 0;
+    const tick = (t) => {
+      if (!lastT) lastT = t;
+      const dt = Math.min((t - lastT) / 1000, 0.1);
+      lastT = t;
+      const halfW = el.scrollWidth / 2;
+      if (halfW > 0) {
+        const loopSec = window.innerWidth < 720 ? 4 : 9;
+        x -= (halfW / loopSec) * dt;
+        if (-x >= halfW) x += halfW;
+        el.style.transform = `translate3d(${x}px, 0, 0)`;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
   return (
     <div className="partners" id="aseguradoras">
       <div className="wrap partners-row">
         <div className="partners-label">Trabajamos con</div>
         <div className="partners-track">
-          <div className="partners-inner">
+          <div className="partners-inner" ref={innerRef}>
             {row.map((n, i) =>
             <span key={i} className={(i % list.length) % 3 === 1 ? 'it' : ''}>{n}</span>
             )}

@@ -285,12 +285,10 @@ body { overflow-x: hidden; }
 }
 .partners-inner {
   display: flex; align-items: center;
-  animation: scroll-x 9s linear infinite;
   white-space: nowrap;
   will-change: transform;
 }
 @media (max-width: 720px) {
-  .partners-inner { animation-duration: 4s; }
   .partners-inner span { font-size: 20px; margin-right: 24px; }
 }
 .partners-inner span {
@@ -303,10 +301,6 @@ body { overflow-x: hidden; }
   margin-right: 64px;
 }
 .partners-inner span.it { font-style: italic; }
-@keyframes scroll-x {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
 
 /* ---------------- SERVICES ---------------- */
 .section { padding: 120px 0; }
